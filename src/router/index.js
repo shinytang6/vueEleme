@@ -8,6 +8,7 @@ import Seller from '../components/seller/seller'
 Vue.use(Router)
 
 export default new Router({
+  // 设置链接激活时使用的 CSS 类名
   linkActiveClass:"active",
   routes: [
     {
