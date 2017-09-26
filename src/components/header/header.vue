@@ -42,11 +42,29 @@ export default {
     background: black
     .content-wrapper
         padding: 24px 12px 18px 24px
+        font-size: 0
         // 设置为inline不会发生变化 ，因为设置为内联元素下面不能包含块级元素，而这边的div.content 内包含了块级元素，所以不变化，如果下面没有块级元素则两个div元素会并排显示
         .avatar
             display: inline-block
         .content
             display: inline-block
-        
+            font-size: 14px
+            margin-left: 16px
+            .title
+                margin: 2px 0 8px 0
+                .brand
+                    display: inline-block
+                    width: 30px
+                    height: 18px
+                    background-image: url("brand@2x.png")
+                    background-size: 30px 18px
+                    background-repeat: no-repeat
+                    vertical-align: top
+                .name
+                    margin-left: 6px
+                    font-size: 16px
+                    font-weight: bold    
+                    line-height: 18px
+                    
 
 </style>
