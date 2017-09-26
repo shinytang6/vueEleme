@@ -23,7 +23,10 @@
               <i class="icon-keyboard_arrow_right"></i>
           </div>
       </div>
-      <div class="bulletin-wrapper"></div>
+      <div class="bulletin-wrapper">
+        <span class="bulletin-title"></span><span class="bulletin-text">{{seller.bulletin}}</span>
+        <i class="icon-keyboard_arrow_right"></i>
+      </div>
   </div>
 </template>
 
@@ -52,6 +55,7 @@ export default {
     .content-wrapper
         padding: 24px 12px 18px 24px
         position: relative
+        // 两个span在一起有留白，要取消掉要设置font-size为0
         font-size: 0
         // 设置为inline不会发生变化 ，因为设置为内联元素下面不能包含块级元素，而这边的div.content 内包含了块级元素，所以不变化，如果下面没有块级元素则两个div元素会并排显示
         .avatar
@@ -108,8 +112,7 @@ export default {
                     font-weight: 200
                     line-height: 12px
                     vertical-align: top
-        .support-count
-            
+        .support-count 
             font-weight: 200
             line-height: 12px
             height: 12px
@@ -127,6 +130,35 @@ export default {
             .icon-keyboard_arrow_right
               margin-left: 2px
               font-size: 10px
+    .bulletin-wrapper
+      height: 28px
+      line-height: 28px
+      padding: 0 22px 0 12px
+      position: relative
+      background-color: rgba(7,17,27,0.2)
+      // 多余的文字显示...的三个css声明
+      white-space: nowrap
+      overflow: hidden
+      text-overflow: ellipsis
+      // font-size: 0
+      .bulletin-title
+        display: inline-block
+        width: 22px
+        height: 12px
+        background-image: url("bulletin@2x.png")
+        background-size: 22px 12px
+        background-repeat: no-repeat
+      .bulletin-text
+        font-size: 10px
+        font-weight: 200
+        margin: 0 4px
+        vertical-align: top
+      .icon-keyboard_arrow_right
+        position: absolute
+        right: 12px
+        top: 8px
+        font-size: 10px
+      
 
               
    
