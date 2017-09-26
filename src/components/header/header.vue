@@ -96,7 +96,7 @@ export default {
                     background-size: 12px 12px
                     background-repeat: no-repeat
                     
-                    // &符号可以理解为代替了上一层的选择器
+                    // & 可以理解为代替了上一层的选择器
                     &.decrease
                       background-image: url("decrease_1@2x.png")
                     &.discount
