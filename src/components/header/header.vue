@@ -18,18 +18,24 @@
                   <span class="text">{{seller.supports[0].description}}</span>
               </div>
           </div>
-          <div class="support-count" v-if="seller.supports">
+          <div class="support-count" v-if="seller.supports" @click="showDetail">
               <span class="count">{{seller.supports.length}}个</span>
               <i class="icon-keyboard_arrow_right"></i>
           </div>
       </div>
-      <div class="bulletin-wrapper">
+      <div class="bulletin-wrapper" @click="showDetail">
         <span class="bulletin-title"></span><span class="bulletin-text">{{seller.bulletin}}</span>
         <i class="icon-keyboard_arrow_right"></i>
       </div>
+      <!-- 背景 -->
       <div class="background">
         <img :src="seller.avatar" width="100%" height="100%">
       </div>
+      <!-- 详情弹层页 -->
+      <div class="detail" v-show="detailShow">
+        
+      </div>
+
   </div>
 </template>
 
@@ -38,13 +44,19 @@ export default {
   name: 'header',
   data() {
     return {
-      classMap : ["decrease","discount","special","invoice","guarantee"]
+      classMap: ["decrease","discount","special","invoice","guarantee"],
+      detailShow: false
     }
   },
   props: {
     seller:{
         type: Object
 
+    }
+  },
+  methods: {
+    showDetail: function(){
+      this.detailShow = true;
     }
   }
 }
@@ -173,6 +185,18 @@ export default {
       z-index: -1
       // 给背景图添加滤镜
       filter: blur(10px)
+      // 将blur效果溢出的部分隐藏
+      overflow: hidden
+    .detail
+      position: fixed
+      top: 0
+      left: 0
+      // z-index只能在定位元素上奏效
+      z-index: 100
+      width: 100%
+      height: 100%
+      overflow: auto
+      background: rgba(7,17,28,0.8)
       
       
 
