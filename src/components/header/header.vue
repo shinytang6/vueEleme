@@ -44,6 +44,20 @@
               <div class="text">优惠信息</div>
               <div class="line"></div>
             </div>
+            <ul v-if="seller.supports" class="supports">
+              <li class="support-item" v-for="item in seller.supports">
+                <span :class="classMap[item.type]" class="icon"></span>
+                <span class="text">{{item.description}}</span>
+              </li>
+            </ul>
+            <div class="title">
+              <div class="line"></div>
+              <div class="text">商家公告</div>
+              <div class="line"></div>
+            </div>
+            <div class="bulletin">
+              <p class="content">{{seller.bulletin}}</p>
+            </div>
           </div>
         </div>
         <div class="detail-close">
@@ -75,7 +89,7 @@ export default {
   },
   methods: {
     showDetail: function(){
-      this.detailShow = true;
+      this.detailShow = !this.detailShow;
     }
   }
 }
@@ -214,6 +228,7 @@ export default {
       z-index: 100
       width: 100%
       height: 100%
+      // 如果内容被修剪，则浏览器会显示滚动条以便查看其余的内容。
       overflow: auto
       background: rgba(7,17,28,0.8)
       // css sticky footer
@@ -242,6 +257,42 @@ export default {
             .text
               padding: 0 12px
               font-size: 14px
+              font-weight: 700
+          .supports
+            margin-left: 36px
+            font-size: 0 
+            .support-item
+              margin-top: 12px
+              .icon
+                width: 16px
+                height: 16px
+                display: inline-block
+                background-size: 16px 16px
+                margin-right: 6px
+                vertical-align: top
+                &.decrease
+                    background-image: url("decrease_2@2x.png")
+                &.discount
+                    background-image: url("discount_2@2x.png")
+                &.guarantee
+                    background-image: url("guarantee_2@2x.png")
+                &.invoice
+                    background-image: url("invoice_2@2x.png")
+                &.special
+                    background-image: url("special_2@2x.png")
+              .text
+                margin-left: 6px
+                font-size: 12px
+                line-height: 16px
+                font-weight: 200
+          .bulletin
+            width: 80%
+            margin: 0 auto
+            .content
+              padding: 0 12px
+              line-height: 24px
+              font-size: 12px
+              font-weight: 200
       .detail-close
         position: relative
         width: 32px
