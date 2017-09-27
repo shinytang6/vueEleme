@@ -18,12 +18,12 @@
                   <span class="text">{{seller.supports[0].description}}</span>
               </div>
           </div>
-          <div class="support-count" v-if="seller.supports" @click="showDetail">
+          <div class="support-count" v-if="seller.supports" @click="toggleDetail">
               <span class="count">{{seller.supports.length}}个</span>
               <i class="icon-keyboard_arrow_right"></i>
           </div>
       </div>
-      <div class="bulletin-wrapper" @click="showDetail">
+      <div class="bulletin-wrapper" @click="toggleDetail">
         <span class="bulletin-title"></span><span class="bulletin-text">{{seller.bulletin}}</span>
         <i class="icon-keyboard_arrow_right"></i>
       </div>
@@ -32,6 +32,7 @@
         <img :src="seller.avatar" width="100%" height="100%">
       </div>
       <!-- 详情弹层页 -->
+      <transition name="fade">
       <div class="detail" v-show="detailShow">
         <div class="detail-wrapper clearfix">
           <div class="detail-main">
@@ -60,10 +61,11 @@
             </div>
           </div>
         </div>
-        <div class="detail-close">
+        <div class="detail-close" @click="toggleDetail">
           <i class="icon-close"></i>
         </div>
       </div>
+      </transition>
 
   </div>
 </template>
@@ -88,7 +90,7 @@ export default {
     }
   },
   methods: {
-    showDetail: function(){
+    toggleDetail: function(){
       this.detailShow = !this.detailShow;
     }
   }
@@ -230,7 +232,15 @@ export default {
       height: 100%
       // 如果内容被修剪，则浏览器会显示滚动条以便查看其余的内容。
       overflow: auto
-      background: rgba(7,17,28,0.8)
+      // 下面两条和设置background: rgba(7,17,27,0.8)效果一样
+      background: rgb(7,17,27)
+      opacity: 0.8
+      &.fade-enter-active, &.fade-leave-active {
+        transition: opacity 1s
+      }
+      &.fade-enter, &.fade-leave-to {
+        opacity: 0
+      }
       // css sticky footer
       .detail-wrapper
         min-height: 100%
