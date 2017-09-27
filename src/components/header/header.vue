@@ -33,15 +33,34 @@
       </div>
       <!-- 详情弹层页 -->
       <div class="detail" v-show="detailShow">
-        
+        <div class="detail-wrapper clearfix">
+          <div class="detail-main">
+            <h1 class="name">{{seller.name}}</h1>
+            <div class="star-wrapper">
+               <Star :size="48" :score="seller.score"></Star>
+            </div>
+            <div class="title">
+              <div class="line"></div>
+              <div class="text">优惠信息</div>
+              <div class="line"></div>
+            </div>
+          </div>
+        </div>
+        <div class="detail-close">
+          <i class="icon-close"></i>
+        </div>
       </div>
 
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+import Star from "../star/star"
 export default {
   name: 'header',
+  components: {
+      Star
+  },
   data() {
     return {
       classMap: ["decrease","discount","special","invoice","guarantee"],
@@ -197,6 +216,43 @@ export default {
       height: 100%
       overflow: auto
       background: rgba(7,17,28,0.8)
+      // css sticky footer
+      .detail-wrapper
+        min-height: 100%
+        .detail-main
+          margin-top: 64px
+          padding-bottom: 64px
+          .name
+            line-height: 16px
+            font-size: 16px
+            font-weight: 700
+            text-align: center
+          .star-wrapper
+            margin-top: 18px
+            text-align: center
+          .title
+            display: flex
+            width: 80%
+            margin: 30px auto 24px auto
+            .line
+              flex: 1
+              position: relative
+              top: -6px
+              border-bottom: 1px solid rgba(255,255,255,0.2)
+            .text
+              padding: 0 12px
+              font-size: 14px
+      .detail-close
+        position: relative
+        width: 32px
+        height: 32px
+        // margin设置为auto必须要给居中元素设置一个宽度
+        margin: -64px auto 0 auto
+        clear: both
+        font-size: 32px
+     
+        
+        
       
       
 
