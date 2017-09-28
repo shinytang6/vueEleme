@@ -29,7 +29,7 @@ export default {
       }
     }
   },
-  created(){
+  created() {
     this.$http.get('/api/seller').then(response => {
       // get body data
       response = response.body;
