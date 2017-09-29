@@ -1,17 +1,17 @@
 <template>
   <div class="goods">
-    <div class="menu-wrapper">
+    <div class="menu-wrapper" ref="menuWrapper">
         <ul>
-            <li v-for="item in goods" class="menu-item">
+            <li v-for="(item,index) in goods" class="menu-item" :class="{focusMenu: menuIndex === index}" @click="selectMenu(index)">
                 <span class="text">
                     <span class="icon" v-if="item.type>0" :class="classMap[item.type]"></span>{{item.name}}
                 </span>
             </li>
         </ul>
     </div>
-    <div class="foods-wrapper">
+    <div class="foods-wrapper" ref="foodsWrapper">
         <ul>
-            <li v-for="item in goods" class="food-list">
+            <li v-for="item in goods" class="food-list food-list-hook">
                 <h1 class="title">{{item.name}}</h1>
                 <ul>
                     <li v-for="food in item.foods" class="food-item">
@@ -39,6 +39,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+import BScroll from "better-scroll";
 const ERR_OK = 0;
 export default {
     props: {
@@ -49,7 +50,18 @@ export default {
     data() {
         return {
             goods: [],
-            classMap: ["decrease","discount","special","invoice","guarantee"]
+            classMap: ["decrease","discount","special","invoice","guarantee"],
+            heightList: [],
+            scrollY: 0
+        }
+    },
+    computed: {
+        menuIndex: function(){
+            for (let j = 0; j < this.heightList.length; j++){
+                if(this.scrollY >= this.heightList[j] && this.scrollY < this.heightList[j+1] )
+                    return j
+            }
+            return 0
         }
     },
     created() {
@@ -58,12 +70,47 @@ export default {
           response = response.body;
           if (response.errno == ERR_OK){
               this.goods = response.data
-              console.log(this.goods)
+              // 将回调延迟到下次 DOM 更新循环之后执行。在修改数据之后立即使用它，然后等待 DOM 更新。它跟全局方法 Vue.nextTick 一样，不同的是回调的 this 自动绑定到调用它的实例上。
+              this.$nextTick(function(){
+                this.initScroll()
+                this.calHeight()
+              })
+              
           }
 
         }, response => {
           // error callback
         });
+    },
+    methods: {
+        initScroll: function(){
+            this.menuScroll = new BScroll(this.$refs.menuWrapper,{
+                click: true
+            })
+            this.foodsScroll = new BScroll(this.$refs.foodsWrapper,{
+                probeType: 3
+            })
+
+            this.foodsScroll.on("scroll", (pos) => {
+                this.scrollY = Math.abs(Math.round(pos.y))
+                // console.log(this.scrollY)
+            })
+        },
+        calHeight: function(){
+            let height = 0;
+            this.heightList.push(height)
+            let foodsList = this.$refs.foodsWrapper.getElementsByClassName("food-list-hook")
+            for(let i=0; i<foodsList.length;i++){
+                height = height + foodsList[i].clientHeight
+                this.heightList.push(height)
+            }
+        },
+        selectMenu: function(index) {
+            // this.scrollY = this.heightList[index]
+            let foodsList = this.$refs.foodsWrapper.getElementsByClassName("food-list-hook")
+            let el = foodsList[index]
+            this.foodsScroll.scrollToElement(el,300)
+        }
     }
 }
 </script>
@@ -106,10 +153,13 @@ export default {
                       background-image: url("invoice_3@2x.png")
                     &.special
                       background-image: url("special_3@2x.png")
-            
+        .focusMenu
+            background: white
+            font-weight: 700
                 
     .foods-wrapper
         flex: 1
+        overflow: hidden
         .title
             font-size: 12px
             padding-left: 14px
@@ -137,7 +187,7 @@ export default {
                     color: rgb(7,17,27)
                 .description
                     margin-bottom: 8px
-                    line-height: 10px
+                    line-height: 16px
                     font-size: 10px
                     color: rgb(147,153,159)
                 .extra
