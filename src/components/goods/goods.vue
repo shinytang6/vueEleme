@@ -3,15 +3,38 @@
     <div class="menu-wrapper">
         <ul>
             <li v-for="item in goods" class="menu-item">
-            <span class="text">
-                <span class="icon" v-if="item.type>0" :class="classMap[item.type]"></span>
-               <!--  <span class="text"> -->
-                   {{item.name}}
+                <span class="text">
+                    <span class="icon" v-if="item.type>0" :class="classMap[item.type]"></span>{{item.name}}
                 </span>
             </li>
         </ul>
     </div>
-    <div class="foods-wrapper"></div>
+    <div class="foods-wrapper">
+        <ul>
+            <li v-for="item in goods" class="food-list">
+                <h1 class="title">{{item.name}}</h1>
+                <ul>
+                    <li v-for="food in item.foods" class="food-item">
+                        <div class="icon">
+                            <img :src="food.icon" width="57" height="57">
+                        </div>
+                        <div class="content">
+                            <h2 class="name">{{food.name}}</h2>
+                            <p class="description">{{food.description}}</p>
+                            <div class="extra"> 
+                                <span class="">月售{{food.sellCount}}</span>
+                                <span>好评率{{food.rating}}%</span>
+                            </div>
+                            <div class="price">
+                                <span class="newPrice">￥{{food.price}}</span>
+                                <span v-if="food.oldPrice" class="oldPrice">￥{{food.oldPrice}}</span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
   </div>
 </template>
 
@@ -87,4 +110,52 @@ export default {
                 
     .foods-wrapper
         flex: 1
+        .title
+            font-size: 12px
+            padding-left: 14px
+            line-height: 26px
+            color: rgb(147,153,159)
+            background: #f3f5f7
+            border-left: 2px solid #d9dde1
+        .food-item
+            display: flex
+            margin: 18px
+            padding-bottom: 18px
+            border-bottom: 1px solid rgba(7,17,27,0.1)
+            &:last-child
+                border-bottom: 0
+                margin-bottom: 0
+            .icon
+                flex: 0 0 57px
+                margin-right: 10px
+            .content
+                flex: 1
+                .name
+                    line-height: 14px
+                    margin: 2px 0 8px 0
+                    font-size: 14px
+                    color: rgb(7,17,27)
+                .description
+                    margin-bottom: 8px
+                    line-height: 10px
+                    font-size: 10px
+                    color: rgb(147,153,159)
+                .extra
+                    margin-bottom: 8px
+                    line-height: 10px
+                    font-size: 10px
+                    color: rgb(147,153,159)
+                .price
+                    font-size: 0
+                    line-height: 24px
+                    .newPrice
+                        font-size: 14px
+                        padding-right: 8px
+                        color: rgb(240,20,20)
+                    .oldPrice
+                        font-size: 10px
+                        text-decoration: line-through
+                        color: rgb(147,153,159)
+            
+            
 </style>
