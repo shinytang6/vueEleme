@@ -35,17 +35,24 @@
             </li>
         </ul>
     </div>
+    <div class="shopcart">
+        <Shopcart></Shopcart>
+    </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
 import BScroll from "better-scroll";
+import Shopcart from "../shopcart/shopcart";
 const ERR_OK = 0;
 export default {
     props: {
         seller: {
             type: Object
         }
+    },
+    components: {
+        Shopcart
     },
     data() {
         return {
@@ -125,6 +132,7 @@ export default {
     .menu-wrapper
         flex: 0 0 80px
         background: #f3f5f7
+        overflow: hidden
         .menu-item
             display: table
             height: 54px
