@@ -8,9 +8,9 @@
                 </div>
             </div>
             <div class="price">￥0</div>
-            <div class="delivery">另配送费￥4元</div>
+            <div class="delivery">另配送费￥{{deliveryPrice}}元</div>
         </div>
-        <div class="content-right"></div>
+        <div class="content-right">￥{{minPrice}}起送</div>
     </div>
 </div>
 
@@ -18,6 +18,16 @@
 
 <script type="text/ecmascript-6">
 export default {
+    props: {
+        deliveryPrice:{
+            type: Number,
+            default: 0
+        },
+        minPrice: {
+            type: Number,
+            default: 0
+        }
+    }
 }
 </script>
 
@@ -75,4 +85,5 @@ export default {
         .content-right
             flex: 0 0 105px
             width: 105px 
+            // margin
 </style>
