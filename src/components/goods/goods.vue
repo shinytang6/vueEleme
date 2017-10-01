@@ -29,6 +29,9 @@
                                 <span class="newPrice">￥{{food.price}}</span>
                                 <span v-if="food.oldPrice" class="oldPrice">￥{{food.oldPrice}}</span>
                             </div>
+                            <div class="cartcontrol-wrapper">
+                                <CartControl :food="food"></CartControl>
+                            </div>
                         </div>
                     </li>
                 </ul>
@@ -44,6 +47,7 @@
 <script type="text/ecmascript-6">
 import BScroll from "better-scroll";
 import Shopcart from "../shopcart/shopcart";
+import CartControl from "../cartcontrol/cartcontrol"
 const ERR_OK = 0;
 export default {
     props: {
@@ -52,7 +56,8 @@ export default {
         }
     },
     components: {
-        Shopcart
+        Shopcart,
+        CartControl
     },
     data() {
         return {
@@ -95,6 +100,8 @@ export default {
                 click: true
             })
             this.foodsScroll = new BScroll(this.$refs.foodsWrapper,{
+                // 很重要，否则cartcontrol里在移动端点击事件不生效
+                click: true,
                 probeType: 3
             })
 
@@ -188,6 +195,7 @@ export default {
                 margin-right: 10px
             .content
                 flex: 1
+                position: relative
                 .name
                     line-height: 14px
                     margin: 2px 0 8px 0
@@ -214,6 +222,10 @@ export default {
                         font-size: 10px
                         text-decoration: line-through
                         color: rgb(147,153,159)
+                .cartcontrol-wrapper
+                    position: absolute
+                    right: 0
+                    bottom: 12px
             
             
 </style>
