@@ -23,7 +23,6 @@ export default {
     },
     methods: {
         addCart: function(){
-            console.log(this.food.count)
             if(!this.food.count){
                 // 用下面这行的话是对food新增了一个属性，dom检测不出的，所以要引入全局的Vue
                 // this.food.count = 1

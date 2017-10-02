@@ -1,6 +1,6 @@
 <template>
 <div class="shopcart">
-    <div class="content">
+    <div class="content" @click="toggleList">
         <div class="content-left">
             <div class="logo-wrapper">
                 <div class="logo" :class="{highlight: totalCount>0}">
@@ -17,11 +17,31 @@
              </div>
         </div>
     </div>
+    <div class="shopcart-list" v-show="listShow">
+        <div class="list-header">
+            <h1 class="title">购物车</h1>
+            <span class="empty">清空</span>
+        </div>
+        <div class="list-content">
+            <ul>
+                <li class="food" v-for="food in selectFoods">
+                    <span class="name">{{food.name}}</span>
+                    <div class="price">
+                        <span>￥{{food.price*food.count}}</span>
+                    </div>
+                    <div class="cartcontrol-wrapper">
+                        <CartControl :food="food"></CartControl>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
 
 </template>
 
 <script type="text/ecmascript-6">
+import CartControl from "../cartcontrol/cartcontrol"
 export default {
     props: {
         deliveryPrice:{
@@ -41,6 +61,14 @@ export default {
                 }]
             }
         }
+    },
+    data(){
+       return{
+        fold: true
+       } 
+    },
+    components: {
+        CartControl
     },
     computed: {
         totalPrice: function(){
@@ -72,6 +100,26 @@ export default {
                 return "not-enough";
             else
                 return "enough";
+        },
+        listShow: function(){
+            if(!this.totalCount) {
+                return false
+            } else {
+                let show = !this.fold
+                return show
+            }
+
+        }
+    },
+    methods: {
+        toggleList: function(){
+            if(!this.totalCount){
+                this.fold = true
+                return 
+            }
+            
+            this.fold = !this.fold  
+            console.log(this.listShow)
         }
     }
 }
@@ -161,4 +209,28 @@ export default {
                 &.enough
                     background: #00b43c
                     color: #fff
+    .shopcart-list
+        position: absolute
+        left: 0
+        top: -60px
+        z-index: -1
+        width: 100%
+        .list-header
+            height: 40px
+            line-height: 40px
+            padding: 0 18px 
+            background: #f3f5f7
+            border-bottom: 1px solid rgba(7,17,27,0.1)
+            .title
+                float: left
+                font-size: 14px
+                color: rgb(7,17,27)
+            .empty
+                float: right
+                font-size: 12px
+                color: rgb(0,160,220)
+        .list-content
+            padding: 0 18px
+            max-height: 217px
+            
 </style>
