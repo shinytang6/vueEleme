@@ -39,7 +39,7 @@
         </ul>
     </div>
     <div class="shopcart">
-        <Shopcart :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice"></Shopcart>
+        <Shopcart :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice" :select-foods="selectFoods"></Shopcart>
     </div>
   </div>
 </template>
@@ -74,6 +74,17 @@ export default {
                     return j
             }
             return 0
+        },
+        selectFoods: function(){
+            let selectFoods = []
+            this.goods.forEach((good)=>{
+                good.foods.forEach((food)=>{
+                    if(food.count){
+                        selectFoods.push(food)
+                    }
+                })
+            })
+            return selectFoods
         }
     },
     created() {
