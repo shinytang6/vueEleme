@@ -17,12 +17,13 @@
              </div>
         </div>
     </div>
+    <transition name="fold">
     <div class="shopcart-list" v-show="listShow">
         <div class="list-header">
             <h1 class="title">购物车</h1>
-            <span class="empty">清空</span>
+            <span class="empty" @click="empty">清空</span>
         </div>
-        <div class="list-content">
+        <div class="list-content" ref="listContent">
             <ul>
                 <li class="food" v-for="food in selectFoods">
                     <span class="name">{{food.name}}</span>
@@ -36,12 +37,15 @@
             </ul>
         </div>
     </div>
+    </transition>
 </div>
+<div class="list-mask" v-show="listShow"></div>
 
 </template>
 
 <script type="text/ecmascript-6">
-import CartControl from "../cartcontrol/cartcontrol"
+import CartControl from "../cartcontrol/cartcontrol";
+import BScroll from "better-scroll";
 export default {
     props: {
         deliveryPrice:{
@@ -106,6 +110,13 @@ export default {
                 return false
             } else {
                 let show = !this.fold
+                if(show){
+                    this.$nextTick(function(){
+                        this.scroll = new BScroll(this.$refs.listContent,{
+                            click: true
+                        })
+                    })
+                }
                 return show
             }
 
@@ -120,6 +131,11 @@ export default {
             
             this.fold = !this.fold  
             console.log(this.listShow)
+        },
+        empty: function(){
+            this.selectFoods.forEach((food)=>{
+                food.count = 0
+            })
         }
     }
 }
@@ -212,9 +228,11 @@ export default {
     .shopcart-list
         position: absolute
         left: 0
-        top: -60px
+        top: 0
         z-index: -1
         width: 100%
+        // fold样式
+        transform: translate3d(0,-100%,0)
         .list-header
             height: 40px
             line-height: 40px
@@ -231,6 +249,37 @@ export default {
                 color: rgb(0,160,220)
         .list-content
             padding: 0 18px
+            // 超过这个高度就不再无限增高
             max-height: 217px
+            // hidden后用better-scroll插件
+            overflow: hidden
+            background: #fff
+            .food
+                position: relative
+                padding: 12px 0
+                border-bottom: 1px solid rgba(7,17,27,0.1)
+                .name
+                    line-height: 24px
+                    font-size: 14px
+                    color: rgb(7,17,27)
+                .price
+                    position: absolute
+                    bottom: 12px
+                    right: 90px
+                    line-height: 24px
+                    font-size: 14px
+                    font-weight: 700
+                    color: rgb(240,20,20)
+                .cartcontrol-wrapper
+                    position: absolute
+                    right: 0
+                    bottom: 6px
+                    
+                    
+        &.fold-enter-active,&.fold-leave-active
+            transition: all 1s
+        &.fold-enter,&.fold-leave-to
+            transform: translate3d(0,0,0)
+            
             
 </style>
