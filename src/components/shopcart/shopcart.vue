@@ -38,8 +38,9 @@
         </div>
     </div>
     </transition>
+    <div class="list-mask" v-show="listShow" @click="hideList"></div>
 </div>
-<div class="list-mask" v-show="listShow"></div>
+
 
 </template>
 
@@ -136,6 +137,9 @@ export default {
             this.selectFoods.forEach((food)=>{
                 food.count = 0
             })
+        },
+        hideList: function(){
+            this.fold = true
         }
     }
 }
@@ -152,11 +156,15 @@ export default {
     .content
         display: flex
         background: #141d27
+        // z-index 仅能在定位元素上奏效,所以这个是后来加上去的
+        position: relative
+        z-index: 100
         .content-left
             flex: 1
             .logo-wrapper
                 display: inline-block
                 position: relative
+                // z-index: 50
                 top: -10px
                 margin: 0 12px
                 padding: 6px
@@ -229,7 +237,7 @@ export default {
         position: absolute
         left: 0
         top: 0
-        z-index: -1
+        z-index: 50
         width: 100%
         // fold样式
         transform: translate3d(0,-100%,0)
@@ -280,6 +288,13 @@ export default {
             transition: all 1s
         &.fold-enter,&.fold-leave-to
             transform: translate3d(0,0,0)
+    .list-mask
+        position: fixed
+        top: 0
+        width: 100%
+        z-index: 40
+        height: 100%
+        background: rgba(7,17,27,0.6)
             
             
 </style>
