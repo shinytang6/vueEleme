@@ -1,6 +1,6 @@
 # vue_eleme
 
-> A Vue.js project
+> A Simple Vue.js Eleme App
 
 ## Build Setup
 

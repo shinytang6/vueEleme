@@ -28,6 +28,7 @@ export default {
                 // this.food.count = 1
                 Vue.set(this.food,"count",1)
             } else {
+                console.log(this.food.count)
                 this.food.count++
             }
         },

@@ -140,6 +140,7 @@ export default {
         },
         hideList: function(){
             this.fold = true
+            console.log(this.selectFoods)
         }
     }
 }
