@@ -24,6 +24,41 @@ const autoOpenBrowser = !!config.dev.autoOpenBrowser
 const proxyTable = config.dev.proxyTable
 
 const app = express()
+
+// mock数据
+var appData=require('../data.json')
+
+var seller=appData.seller
+ 
+var goods=appData.goods
+
+var ratings=appData.ratings
+
+var apiRouters=express.Router()
+ 
+apiRouters.get("/seller",function(req,res){
+   res.json({
+     errno: 0,
+     data: seller
+   });
+ });
+
+apiRouters.get("/goods",function(req,res){
+   res.json({
+     errno: 0,
+     data: goods
+   });
+ });
+
+apiRouters.get("/ratings",function(req,res){
+   res.json({
+     errno: 0,
+     data: ratings
+   });
+ });
+
+app.use('/api',apiRouters)
+
 const compiler = webpack(webpackConfig)
 
 const devMiddleware = require('webpack-dev-middleware')(compiler, {
