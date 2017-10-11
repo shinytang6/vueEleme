@@ -76,12 +76,13 @@ export default {
     margin-bottom: 52px
     .menu-wrapper
         flex: 0 0 21%
-        background-color: #f3f5f7
         .item
             line-height: 14px
             font-size: 12px
+            background-color: #f3f5f7
             height: 54px
-            margin: 0 10px
+            width: 100%
+            // border: 1px red solid
             color: rgb(0,0,0)   
             text-align: center
             // 玄学，明天再研究
@@ -95,6 +96,7 @@ export default {
                 display: table-cell
                 // ！！！
                 vertical-align: middle
+                padding: 0 10px
                 .icon
                     display: inline-block
                     width: 12px
