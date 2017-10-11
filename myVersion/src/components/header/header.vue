@@ -49,6 +49,17 @@
                 </li>
             </ul>
         </div>
+        <div class="bulletin-title">
+            <span class="line"></span>
+            <span class="title">商家公告</span>
+            <span class="line"></span>
+        </div>
+        <div class="bulletin-content">
+            <p>{{seller.bulletin}}</p>
+        </div>
+        <div class="close" @click="toggleDetail">
+            <i class="icon-close"></i>
+        </div>
     </div>
 </div>
 </template>
@@ -196,13 +207,14 @@ export default {
         right: 20px
         bottom: 40px
         padding: 7px 10px
-        border-radius: 10px
+        border-radius: 14px
         font-size: 12px
         font-weight: 200
         color: rgb(255,255,255)
         background-color: rgba(0,0,0,0.2)
         .icon-keyboard_arrow_right
             display: inline-block
+            margin-left: -4px
     .detail
         position: fixed
         top: 0
@@ -225,7 +237,7 @@ export default {
             .line
                 border-bottom: 1px solid rgba(255,255,255,0.2)
                 display: inline-block
-                width: 112px
+                width: 116px
                 vertical-align: middle
             .title
                 margin: 0 12px
@@ -261,7 +273,31 @@ export default {
                     font-size: 12px
                     font-weight: 200
                     color: rgb(255,255,255)
-            
+        .bulletin-title
+            font-size: 12px
+            margin: 28px 20px 0 20px
+            .line
+                border-bottom: 1px solid rgba(255,255,255,0.2)
+                display: inline-block
+                width: 116px
+                vertical-align: middle
+            .title
+                margin: 0 12px
+                font-size: 14px
+                font-weight: 700
+                color: rgb(255,255,255)
+        .bulletin-content
+            font-size: 12px
+            color: rgb(255,255,255)
+            width: 80%
+            margin: 24px auto
+            line-height: 24px
+        .close
+            font-size: 32px
+            width: 32px
+            height: 32px
+            margin: 40px auto
+            color: rgba(255,255,255,0.5)
     
             
                      
