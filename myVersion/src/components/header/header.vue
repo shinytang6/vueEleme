@@ -29,6 +29,7 @@
         <span class="supports-content">{{supportsLength}}个</span>
         <i class="icon-keyboard_arrow_right"></i>
     </div>
+    <transition name="fade">
     <div class="detail" v-show="detailShow">
         <div class="name-wrapper">
             <h2 class="name">{{seller.name}}</h2>
@@ -61,6 +62,7 @@
             <i class="icon-close"></i>
         </div>
     </div>
+    </transition>
 </div>
 </template>
 
@@ -107,12 +109,10 @@ export default {
 
 <style lang="stylus" rel="stylesheet/stylus">
 .header
-    width: 100%
     background: rgba(7,17,27,0.5)
     position: relative
     font-size: 0
     .main-wrapper
-        width: 100%
         padding: 24px 12px 18px 24px
         .avatar
             width: 64px
@@ -172,13 +172,12 @@ export default {
                     display: inline-block
                     margin-top: 2px
     .bulletin-wrapper
-        width: 100%
-        padding: 0 12px
         background-color: rgba(7,17,27,0.1)
         .bulletin-icon
             display: inline-block
             width: 22px
             height: 14px
+            margin-left: 12px
             background-size: 22px 14px
             background-repeat: no-repeat
             background-image: url("bulletin@2x.png")
@@ -296,8 +295,15 @@ export default {
             font-size: 32px
             width: 32px
             height: 32px
-            margin: 40px auto
+            margin: 100px auto
             color: rgba(255,255,255,0.5)
+        
+        &.fade-enter-active, &.fade-leave-active {
+              transition: opacity 1s
+            }
+        &.fade-enter, &.fade-leave-to  {
+              opacity: 0
+            }
     
             
                      
