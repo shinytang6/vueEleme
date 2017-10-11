@@ -72,9 +72,13 @@ export default {
   name: 'header',
   data() {
     return{
-        seller: {},
         classMap: ["decrease","discount","special","invoice","guarantee"],
         detailShow: false
+    }
+  },
+  props:{
+    seller: {
+        type: Object
     }
   },
   computed: {
@@ -84,20 +88,6 @@ export default {
   },
   components:{
      Star
-  },
-  created: function() {
-    // 必须！还是坑了我一把,vue-resource竟然不用这么写？
-    var that = this
-    this.$axios.get('/api/seller')
-      .then(function (response) {
-        let responseData = response.data
-        if(responseData.errno == 0){
-            that.seller = responseData.data
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
   },
   methods: {
     toggleDetail: function(){

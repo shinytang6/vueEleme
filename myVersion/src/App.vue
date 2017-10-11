@@ -1,11 +1,18 @@
 <template>
   <div id="app">
-    <vHeader></vHeader>
+    <vHeader :seller="seller"></vHeader>
     <div class="tab">
-        <div class="tab-item"><router-link to="/goods">商品</router-link></div>
-        <div class="tab-item"><router-link to="/ratings">评价</router-link></div>
-        <div class="tab-item"><router-link to="/seller">商家</router-link></div>
+        <div class="tab-item">
+            <router-link to="/goods">商品</router-link>
+        </div>
+        <div class="tab-item">
+            <router-link to="/ratings">评价</router-link>
+        </div>
+        <div class="tab-item">
+            <router-link to="/seller">商家</router-link>
+        </div>
     </div>
+    <router-view :seller="seller"></router-view>
   </div>
 </template>
 
@@ -15,6 +22,25 @@ export default {
   name: 'app',
   components: {
     vHeader
+  },
+  data(){
+    return {
+        seller: {}
+    }
+  },
+  created: function() {
+    // 必须！还是坑了我一把,vue-resource竟然不用这么写？
+    var that = this
+    this.$axios.get('/api/seller')
+      .then(function (response) {
+        let responseData = response.data
+        if(responseData.errno == 0){
+            that.seller = responseData.data
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 }
 </script>
