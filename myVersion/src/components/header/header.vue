@@ -18,24 +18,50 @@
             </div>
         </div>
     </div>
-    <div class="bulletin-wrapper">
+    <div class="bulletin-wrapper" @click="toggleDetail">
         <span class="bulletin-icon"></span>
         <span class="bulletin">{{seller.bulletin}}</span>
     </div>
     <div class="background-wrapper">
         <img src="background" :src="seller.avatar" width="100%" height="100%">
     </div>
-    <div class="supports" v-if="seller.supports"><span class="supports-content">{{supportsLength}}个</span><i class="icon-keyboard_arrow_right"></i></div>
+    <div class="supports" v-if="seller.supports" @click="toggleDetail">
+        <span class="supports-content">{{supportsLength}}个</span>
+        <i class="icon-keyboard_arrow_right"></i>
+    </div>
+    <div class="detail" v-show="detailShow">
+        <div class="name-wrapper">
+            <h2 class="name">{{seller.name}}</h2>
+        </div>
+        <div class="star-wrapper">
+            <Star :score="seller.score" :size="24"></Star>
+        </div>
+        <div class="supports-title">
+            <span class="line"></span>
+            <span class="title">优惠信息</span>
+            <span class="line"></span>
+        </div>
+        <div class="supports-content">
+            <ul>
+                <li v-for="support in seller.supports" class="support-item">
+                    <span class="icon" :class="classMap[support.type]"></span>
+                    <span class="content">{{support.description}}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
 </template>
 
 <script>
+import Star from "../star/star"
 export default {
   name: 'header',
   data() {
     return{
         seller: {},
-        classMap: ["decrease","discount","special","invoice","guarantee"]
+        classMap: ["decrease","discount","special","invoice","guarantee"],
+        detailShow: false
     }
   },
   computed: {
@@ -43,9 +69,11 @@ export default {
         return this.seller.supports.length
     }
   },
+  components:{
+     Star
+  },
   created: function() {
-    // 必须！还是坑了我一把
-    // vue-resource竟然不用这么写？
+    // 必须！还是坑了我一把,vue-resource竟然不用这么写？
     var that = this
     this.$axios.get('/api/seller')
       .then(function (response) {
@@ -57,6 +85,11 @@ export default {
       .catch(function (error) {
         console.log(error);
       });
+  },
+  methods: {
+    toggleDetail: function(){
+        this.detailShow = !this.detailShow
+    }
   }
 }
 </script>
@@ -65,8 +98,8 @@ export default {
 .header
     width: 100%
     background: rgba(7,17,27,0.5)
-    font-size: 0
     position: relative
+    font-size: 0
     .main-wrapper
         width: 100%
         padding: 24px 12px 18px 24px
@@ -170,6 +203,66 @@ export default {
         background-color: rgba(0,0,0,0.2)
         .icon-keyboard_arrow_right
             display: inline-block
+    .detail
+        position: fixed
+        top: 0
+        z-index: 100
+        height: 100%
+        width: 100%
+        background-color: rgba(7,17,27,0.8)
+        .name-wrapper
+            margin-top: 64px
+            text-align: center
+            .name
+                font-size: 16px
+                font-weight: 700
+                color: rgb(255,255,255)
+        .star-wrapper
+            margin-left: -6px
+        .supports-title
+            font-size: 12px
+            margin: 0 20px
+            .line
+                border-bottom: 1px solid rgba(255,255,255,0.2)
+                display: inline-block
+                width: 112px
+                vertical-align: middle
+            .title
+                margin: 0 12px
+                font-size: 14px
+                font-weight: 700
+                color: rgb(255,255,255)
+        .supports-content
+            margin-top: 24px
+            margin-left: 36px
+            .support-item
+                margin-top: 12px
+                .icon
+                    display: inline-block
+                    width: 15px
+                    height: 15px
+                    background-size: 15px 15px
+                    background-repeat: no-repeat
+                    vertical-align: top
+                    &.decrease
+                        background-image: url("decrease_1@2x.png")
+                    &.discount
+                        background-image: url("discount_1@2x.png")
+                    &.special
+                        background-image: url("special_1@2x.png")
+                    &.invoice
+                        background-image: url("invoice_1@2x.png")
+                    &.guarantee
+                        background-image: url("guarantee_1@2x.png")
+                .content
+                    display: inline-block
+                    margin-top: 2px
+                    margin-left: 6px
+                    font-size: 12px
+                    font-weight: 200
+                    color: rgb(255,255,255)
+            
+    
             
                      
 </style>
