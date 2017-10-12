@@ -2,7 +2,7 @@
   <div class="goods">
       <div class="menu-wrapper" ref="menu">
           <ul>
-              <li v-for="item in goods" class="item">
+              <li v-for="(item,index) in goods" class="menu-item" @click="rollHeight(index)" :class="{selected: index==isSelected}" >
                 <!-- 这里一定要把图片和文字包在一个span或div里，文字才会环绕图片，否则想我刚开始两个span连在一起，文字不会环绕图片，还会有各种bug -->
                 <div class="text">
                   <span class="icon" v-if="item.type > 0" :class="classMap[item.type]"></span>{{item.name}}
@@ -12,7 +12,7 @@
       </div>
       <div class="content-wrapper" ref="content">
           <ul>
-              <li v-for="item in goods" class="item"> 
+              <li v-for="item in goods" class="content-item"> 
                   <h2 class="type">{{item.name}}</h2>
                   <div class="food">
                       <ul>
@@ -59,7 +59,9 @@ export default {
     data() {
         return {
             goods: [],
-            classMap: ["decrease","discount","special","invoice","guarantee"]
+            classMap: ["decrease","discount","special","invoice","guarantee"],
+            heightArr: [],
+            isSelected: 0
         }
     },
     created: function() {
@@ -73,6 +75,7 @@ export default {
                 // 一定要写在这里，不能写在下面，不知道为什么
                 that.$nextTick(function(){
                     that.initScroll()
+                    that.calHeight()
                 })
             }
           })
@@ -89,14 +92,40 @@ export default {
             let menu = this.$refs.menu
             // console.log(menu)
             let content = this.$refs.content
-            let menuScroll = new BScroll(menu,{
+            this.menuScroll = new BScroll(menu,{
                 click: true,
                 probeType: 3
             })
-            let contentScroll = new BScroll(content,{
+            this.contentScroll = new BScroll(content,{
                 click: true,
                 probeType: 3
             })
+
+            this.contentScroll.on('scroll', (pos) => {
+                let scrollY = Math.abs(pos.y)
+                for(let j=0;j<this.heightArr.length;j++){
+                    if(scrollY>=this.heightArr[j] && scrollY<this.heightArr[j+1]){
+                        this.isSelected = j
+                    }
+                }
+            })
+        },
+        calHeight: function() {
+            let height = 0
+            this.heightArr.push(height)
+            var item = document.getElementsByClassName("content-item")
+            // 可以看到所有节点默认带有的属性
+            console.log(item)
+            for(let i=0;i<item.length;i++){
+                height = height + item[i].scrollHeight
+                this.heightArr.push(height)
+            }
+
+            // console.log(this.heightArr)
+        },
+        rollHeight: function(index) {
+            let heightRollTo = this.heightArr[index]
+            this.contentScroll.scrollTo(0, -heightRollTo, 1000)
         }
     }
 }
@@ -110,7 +139,7 @@ export default {
         flex: 0 0 21%
         height: 444px
         overflow: hidden
-        .item
+        .menu-item
             line-height: 14px
             font-size: 12px
             background-color: #f3f5f7
@@ -149,6 +178,8 @@ export default {
                         background-image: url("invoice_3@2x.png")
                     &.guarantee
                         background-image: url("guarantee_3@2x.png")
+            &.selected
+                background-color: white
     .content-wrapper
         flex: 1
         font-size: 0
