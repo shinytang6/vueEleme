@@ -30,6 +30,9 @@
                                         <span v-if="food.oldPrice" class="oldPrice">￥{{food.oldPrice}}</span>
                                     </div>
                                 </div>
+                         
+                                <CartControl></CartControl>
+                           
                           </li>
                       </ul>
                   </div>
@@ -40,12 +43,16 @@
 </template>
 
 <script>
+import CartControl from "../cartcontrol/cartcontrol"
 export default {
     name: "goods",
     props: {
         seller: {
             type: Object
         }
+    },
+    components: {
+        CartControl
     },
     data() {
         return {
@@ -119,7 +126,7 @@ export default {
         flex: 1
         font-size: 0
         height: 444px
-        // overflow: hidden
+        overflow: hidden
         .type
             font-size: 12px
             color: rgb(147,153,159)
@@ -129,7 +136,8 @@ export default {
             padding-left: 14px
             border-left: 2px solid #d9dde1
         .food
-            margin: 18px
+            margin: 18px 0px 18px 8px
+            position: relative
             .avatar
                 display: inline-block
                 margin-right: 10px
@@ -161,5 +169,10 @@ export default {
                         color: rgb(147,153,159)
                         font-weight: 200
                         margin-left: 8px
+            // .cartcontrol
+            //     // border: 1px red solid
+            //     position: absolute
+            //     right: 18px
+            //     bottom: 2px
                      
 </style>
