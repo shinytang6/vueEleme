@@ -1,6 +1,6 @@
 <template>
   <div class="goods">
-      <div class="menu-wrapper">
+      <div class="menu-wrapper" ref="menu">
           <ul>
               <li v-for="item in goods" class="item">
                 <!-- 这里一定要把图片和文字包在一个span或div里，文字才会环绕图片，否则想我刚开始两个span连在一起，文字不会环绕图片，还会有各种bug -->
@@ -10,7 +10,7 @@
               </li>
           </ul>
       </div>
-      <div class="content-wrapper">
+      <div class="content-wrapper" ref="content">
           <ul>
               <li v-for="item in goods" class="item"> 
                   <h2 class="type">{{item.name}}</h2>
@@ -43,6 +43,7 @@
 </template>
 
 <script>
+import BScroll from "better-scroll"
 import CartControl from "../cartcontrol/cartcontrol"
 export default {
     name: "goods",
@@ -52,7 +53,8 @@ export default {
         }
     },
     components: {
-        CartControl
+        CartControl,
+        BScroll
     },
     data() {
         return {
@@ -68,11 +70,34 @@ export default {
             let responseData = response.data
             if(responseData.errno == 0){
                 that.goods = responseData.data
+                // 一定要写在这里，不能写在下面，不知道为什么
+                that.$nextTick(function(){
+                    that.initScroll()
+                })
             }
           })
           .catch(function (error) {
             console.log(error);
           });
+
+        // this.$nextTick(function(){
+        //    that.initScroll()
+        // })
+    },
+    methods: {
+        initScroll: function() {
+            let menu = this.$refs.menu
+            // console.log(menu)
+            let content = this.$refs.content
+            let menuScroll = new BScroll(menu,{
+                click: true,
+                probeType: 3
+            })
+            let contentScroll = new BScroll(content,{
+                click: true,
+                probeType: 3
+            })
+        }
     }
 }
 </script>
@@ -83,6 +108,8 @@ export default {
     margin-bottom: 52px
     .menu-wrapper
         flex: 0 0 21%
+        height: 444px
+        overflow: hidden
         .item
             line-height: 14px
             font-size: 12px
