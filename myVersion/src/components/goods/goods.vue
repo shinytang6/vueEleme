@@ -30,7 +30,7 @@
                                         <span v-if="food.oldPrice" class="oldPrice">￥{{food.oldPrice}}</span>
                                     </div>
                                 </div>
-                                <CartControl></CartControl>
+                                <CartControl :price="food.price" :foodList="foodList"></CartControl>
                           </li>
                       </ul>
                   </div>
@@ -38,7 +38,7 @@
           </ul>
       </div>
       <div class="shopcart-wrapper">
-          <ShopCart :seller="seller"></ShopCart>
+          <ShopCart :seller="seller" :foodList="foodList"></ShopCart>
       </div>
   </div>
 </template>
@@ -65,6 +65,31 @@ export default {
             classMap: ["decrease","discount","special","invoice","guarantee"],
             heightArr: [],
             isSelected: 0
+        }
+    },
+    computed: {
+        foodList: function() {
+            let arr = []
+            this.goods.forEach(function(item){
+                item.foods.forEach(function(good){
+                    let isExit = false
+                    for (let i=0;i<arr.length;i++){
+                        if(arr[i].sale==good.price){
+                            isExit = true
+                            break
+                        }
+                    }
+                    if(!isExit) {
+                        arr.push({
+                            count: 0,
+                            sale: good.price
+                        })
+                    }
+
+                })
+            })
+            console.log(arr)
+            return arr
         }
     },
     created: function() {
@@ -118,7 +143,7 @@ export default {
             this.heightArr.push(height)
             var item = document.getElementsByClassName("content-item")
             // 可以看到所有节点默认带有的属性
-            console.log(item)
+            // console.log(item)
             for(let i=0;i<item.length;i++){
                 height = height + item[i].scrollHeight
                 this.heightArr.push(height)

@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import Vue from "vue"
 export default {
     name: "cartcontrol",
     data() {
@@ -25,10 +26,28 @@ export default {
             count: 0
         }
     },
+    props: {
+        price: {
+            type: Number
+        },
+        foodList: {
+            type: Array
+        }
+    },
+    computed: {
+
+    },
     methods: {
         addCount: function() {
             this.count++
             this.minusShow = true
+            var that = this
+            this.foodList.forEach(function(item){
+                if(item.sale == that.price){
+                    Vue.set(item,"count",that.count)
+                }
+            })
+            console.log(this.foodList)
         },
         minusCount: function() {
             this.count-- 
