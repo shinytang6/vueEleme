@@ -30,14 +30,15 @@
                                         <span v-if="food.oldPrice" class="oldPrice">￥{{food.oldPrice}}</span>
                                     </div>
                                 </div>
-                         
                                 <CartControl></CartControl>
-                           
                           </li>
                       </ul>
                   </div>
               </li>
           </ul>
+      </div>
+      <div class="shopcart-wrapper">
+          <ShopCart :seller="seller"></ShopCart>
       </div>
   </div>
 </template>
@@ -45,6 +46,7 @@
 <script>
 import BScroll from "better-scroll"
 import CartControl from "../cartcontrol/cartcontrol"
+import ShopCart from "../shopcart/shopcart"
 export default {
     name: "goods",
     props: {
@@ -54,6 +56,7 @@ export default {
     },
     components: {
         CartControl,
+        ShopCart,
         BScroll
     },
     data() {
@@ -100,7 +103,7 @@ export default {
                 click: true,
                 probeType: 3
             })
-
+            // 可以实时检测滚动到的位置
             this.contentScroll.on('scroll', (pos) => {
                 let scrollY = Math.abs(pos.y)
                 for(let j=0;j<this.heightArr.length;j++){
@@ -227,10 +230,9 @@ export default {
                         color: rgb(147,153,159)
                         font-weight: 200
                         margin-left: 8px
-            // .cartcontrol
-            //     // border: 1px red solid
-            //     position: absolute
-            //     right: 18px
-            //     bottom: 2px
-                     
+    .shopcart-wrapper
+        position: fixed
+        bottom: 0
+        left: 0
+        width: 100%
 </style>
